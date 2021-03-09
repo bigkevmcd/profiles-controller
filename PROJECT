@@ -1,6 +1,6 @@
 domain: weave.works
 layout: go.kubebuilder.io/v3
-projectName: profiles-controller
+projectName: profiles
 repo: github.com/bigkevmcd/profiles-controller
 version: 3-alpha
 plugins:

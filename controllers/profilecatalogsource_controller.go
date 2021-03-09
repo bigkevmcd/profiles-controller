@@ -30,8 +30,9 @@ import (
 // ProfileCatalogSourceReconciler reconciles a ProfileCatalogSource object
 type ProfileCatalogSourceReconciler struct {
 	client.Client
-	Log    logr.Logger
-	Scheme *runtime.Scheme
+	Log      logr.Logger
+	Scheme   *runtime.Scheme
+	Profiles ProfilesRepository
 }
 
 // +kubebuilder:rbac:groups=profiles.weave.works,resources=profilecatalogsources,verbs=get;list;watch;create;update;patch;delete
@@ -48,9 +49,21 @@ type ProfileCatalogSourceReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.7.0/pkg/reconcile
 func (r *ProfileCatalogSourceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = r.Log.WithValues("profilecatalogsource", req.NamespacedName)
+	log := r.Log.WithValues("profilecatalogsource", req.NamespacedName)
+	log.Info("reconciling catalog source", "req", req)
 
-	// your logic here
+	var pcs profilesv1alpha1.ProfileCatalogSource
+	if err := r.Get(ctx, req.NamespacedName, &pcs); err != nil {
+		// This ignores NotFound errors because retrying is unlikely to fix the
+		// problem.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// Only process embedded profiles just now.
+
+	for n := range pcs.Spec.EmbeddedProfiles {
+		r.Profiles.Add(pcs.Spec.EmbeddedProfiles[n])
+	}
 
 	return ctrl.Result{}, nil
 }

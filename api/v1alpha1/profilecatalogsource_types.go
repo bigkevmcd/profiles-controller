@@ -20,28 +20,35 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
-// ProfileCatalogSourceSpec defines the desired state of ProfileCatalogSource
-type ProfileCatalogSourceSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of ProfileCatalogSource. Edit ProfileCatalogSource_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+// Profile might be able to be reused from the Profile specification.
+type Profile struct {
+	Name        string `json:"name"`
+	URL         string `json:"url"`
+	Version     string `json:"version"`
+	Description string `json:"description,omitempty"`
+	Maturity    string `json:"maturity,omitempty"` // This should be annotated to reflect correct values.
+	Publisher   string `json:"publisher,omitempty"`
 }
 
-// ProfileCatalogSourceStatus defines the observed state of ProfileCatalogSource
+// ProfileCatalogSourceSpec defines the desired state of ProfileCatalogSource.
+type ProfileCatalogSourceSpec struct {
+	// These are purely metadata fields.
+	DisplayName string `json:"displayName,omitempty"`
+	Description string `json:"description,omitempty"`
+	Publisher   string `json:"publisher,omitempty"`
+
+	EmbeddedProfiles []Profile `json:"profiles,omitempty"`
+}
+
+// ProfileCatalogSourceStatus defines the observed state of
+// ProfileCatalogSource.
 type ProfileCatalogSourceStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// ProfileCatalogSource is the Schema for the profilecatalogsources API
+// ProfileCatalogSource is the Schema for the profilecatalogsources API.
 type ProfileCatalogSource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

@@ -1,0 +1,85 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: profilecatalogsources.profiles.weave.works
+spec:
+  group: profiles.weave.works
+  names:
+    kind: ProfileCatalogSource
+    listKind: ProfileCatalogSourceList
+    plural: profilecatalogsources
+    singular: profilecatalogsource
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ProfileCatalogSource is the Schema for the profilecatalogsources
+          API.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ProfileCatalogSourceSpec defines the desired state of ProfileCatalogSource.
+            properties:
+              description:
+                type: string
+              displayName:
+                description: These are purely metadata fields.
+                type: string
+              profiles:
+                items:
+                  description: Profile might be able to be reused from the Profile
+                    specification.
+                  properties:
+                    description:
+                      type: string
+                    maturity:
+                      type: string
+                    name:
+                      type: string
+                    publisher:
+                      type: string
+                    url:
+                      type: string
+                    version:
+                      type: string
+                  required:
+                  - name
+                  - url
+                  - version
+                  type: object
+                type: array
+              publisher:
+                type: string
+            type: object
+          status:
+            description: ProfileCatalogSourceStatus defines the observed state of
+              ProfileCatalogSource.
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

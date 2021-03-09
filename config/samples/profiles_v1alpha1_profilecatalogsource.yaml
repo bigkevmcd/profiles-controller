@@ -1,7 +1,17 @@
 apiVersion: profiles.weave.works/v1alpha1
 kind: ProfileCatalogSource
 metadata:
-  name: profilecatalogsource-sample
+  name: demo-catalog
 spec:
-  # Add fields here
-  foo: bar
+  displayName: Demo Catalog
+  description: Demo catalog entries
+  publisher: WeaveWorks <gitops@weave.works>
+  gitRepository:
+    name: my-git-repository # <- references a GitRepository object
+  profiles: # Or alternatively, can be embedded in the ProfileCatalogSource
+    - name: weaveworks-nginx
+      description: This installs nginx.
+      maturity: alpha
+      publisher: WeaveWorks <gitops@weave.works>
+      url: https://github.com/weaveworks/sample-profile.git # <- profile.yaml at root of this repo, probably will need to be extended with a path.
+      version: v0.0.1

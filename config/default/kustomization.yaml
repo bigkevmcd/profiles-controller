@@ -1,5 +1,5 @@
 # Adds namespace to all resources.
-namespace: profiles-controller-system
+namespace: profiles-system
 
 # Value of this field is prepended to the
 # names of all resources, e.g. a deployment named

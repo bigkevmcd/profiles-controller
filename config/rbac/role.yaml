@@ -1,0 +1,34 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - profiles.weave.works
+  resources:
+  - profilecatalogsources
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - profiles.weave.works
+  resources:
+  - profilecatalogsources/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - profiles.weave.works
+  resources:
+  - profilecatalogsources/status
+  verbs:
+  - get
+  - patch
+  - update
